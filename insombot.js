@@ -17,13 +17,11 @@ mybot.on("message", function (msg) {
   var message = msg.content;
 
   //keywords
-  var hello = "hello";
-  var giphy = "gif:";
+  var giphy = "g:";
 
-  //Hello
-  if (message === hello) {
-    mybot.reply(msg, "hi QT");
-
+  // Reply to direct mentions
+  if (msg.isMentioned(mybot.user)) {
+    mybot.reply(msg, "right back atcha");
     return;
   }
 
