@@ -4,6 +4,7 @@
     "start": "node insombot.js"
   },
   "dependencies": {
+    "config-multipaas": "^0.1.0",
     "discord.js": "^3.0.3",
     "giphy-wrapper": "0.0.1"
   }

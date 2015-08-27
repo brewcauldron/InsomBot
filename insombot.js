@@ -1,13 +1,14 @@
-var env = require('./env.json'),
-  Discord = require("discord.js"),
-  Giphy = require('giphy-wrapper')(env["giphy_key"]);
+var cc = require('config-multipaas'),
+    env = require('./env.json'),
+    Discord = require("discord.js"),
+    Giphy = require('giphy-wrapper')(env["giphy_key"]);
 
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
-process.env.BIND_IP = server_ip_address
-process.env.PORT = server_port
+var config_overrides = {PORT: server_port}
+var config = cc(config_overrides);
 
 var mybot = new Discord.Client();
 
