@@ -1,6 +1,7 @@
 var cc = require('config-multipaas'),
   env = require('./env.json'),
   Discord = require("discord.js"),
+  Imgur = require("imgur-search"),
   Giphy = require('giphy-wrapper')(env["giphy_key"]);
 
 
@@ -13,6 +14,10 @@ var config_overrides = {
 var config = cc(config_overrides);
 
 var mybot = new Discord.Client();
+var isearch = new Imgur(env["imgur_key"]);
+
+var termCount = new Map();
+var seenURLs = new Map();
 
 mybot.on("message", function (msg) {
 
@@ -20,6 +25,7 @@ mybot.on("message", function (msg) {
 
   //keywords
   var giphy = "/giphy ";
+  var imgurKey = "/img ";
   var hatter = "hater";
 
   // Reply to direct mentions
@@ -28,28 +34,51 @@ mybot.on("message", function (msg) {
     return;
   }
 
-  //Giphy
+  // Giphy
   var giphyIndex = message.indexOf(giphy);
   if (giphyIndex > -1) {
     var term = message.substring(giphyIndex + giphy.length).trim().replace(/\s/g, "+");
 
-    Giphy.search(term, 10, 0, function (err, data) {
+    var count = termCount.get(term) || 0;
+    // console.log("count for term " + term + " is: " + count);
+    termCount.set(term,count+1);
+
+    Giphy.search(term, 100, count, function (err, data) {
       if (err) {
         return;
       }
 
       var items = data.data;
+      var index = Math.floor(Math.random() * items.length / 2.0);
 
-      if (items.length > 0) {
-        var item = items[Math.floor(Math.random() * items.length)];
-        mybot.sendMessage(msg, item.url);
+      // console.log("found " + items.length + " items for " + term);
+      while (index < items.length && seenURLs.get(items[index].url) !== undefined) {
+        index++;
       }
-      else {
-        var apology = "Sorry, I couldn't find any giphys for the term: " + term;
+      // console.log("using? result number " + index);
+
+      if (items.length > index) {
+        var item = items[index];
+        seenURLs.set(item.url, 1);
+        mybot.sendMessage(msg, item.url);
+      } else {
+        var apology = "sorry, I couldn't find any giphys for the term: " + term;
         mybot.reply(msg, apology);
       }
     });
 
+    return;
+  }
+
+  var imgurIndex = message.indexOf(imgurKey);
+  if (imgurIndex > -1) {
+    var term = message.substring(giphyIndex + giphy.length).trim().replace(/\s/g, "+");
+    isearch.search(term).then(function(results) {
+      if (results === undefined || results.length === 0) { return; }
+
+      var image = results[Math.floor(Math.random() * results.length)];
+      mybot.sendMessage(msg, "Here's a description of an image: " + image.title + " " + image.description);
+    });
     return;
   }
 
