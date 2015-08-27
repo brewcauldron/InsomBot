@@ -18,6 +18,7 @@ mybot.on("message", function (msg) {
 
   //keywords
   var giphy = "g:";
+  var hatter = "hater";
 
   // Reply to direct mentions
   if (msg.isMentioned(mybot.user)) {
@@ -43,6 +44,14 @@ mybot.on("message", function (msg) {
 
     return;
   }
+
+  //Hatter
+  if (message === hater) {
+    mybot.reply(msg, "https://pbs.twimg.com/media/CM5gg9YVAAAVMcn.png");
+
+    return;
+  }
+
 });
 
 mybot.login(env["discord_email"], env["discord_pass"]);
