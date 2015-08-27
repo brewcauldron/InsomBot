@@ -6,6 +6,9 @@ var env = require('./env.json'),
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
+process.env.BIND_IP = server_ip_address
+process.env.PORT = server_port
+
 var mybot = new Discord.Client();
 
 mybot.on("message", function (msg) {

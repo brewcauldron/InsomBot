@@ -3,7 +3,6 @@
   "scripts": {
     "start": "node insombot.js"
   },
-
   "dependencies": {
     "discord.js": "^3.0.3",
     "giphy-wrapper": "0.0.1"
