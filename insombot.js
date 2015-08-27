@@ -56,7 +56,6 @@ mybot.on("message", function (msg) {
   //Hatter
   if (message === hatter) {
     mybot.sendMessage(msg, "https://pbs.twimg.com/media/CM5gg9YVAAAVMcn.png");
-
     return;
   }
 
