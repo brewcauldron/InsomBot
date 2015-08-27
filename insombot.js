@@ -19,7 +19,7 @@ mybot.on("message", function (msg) {
   //keywords
   var hello = "hello";
   var giphy = "gif:";
-  var hatter = "hater";
+  var hatter = "haters";
 
   //Hello
   if (message === hello) {
@@ -48,7 +48,7 @@ mybot.on("message", function (msg) {
   }
 
   //Hatter
-  if (message === hater) {
+  if (message === haters) {
     mybot.reply(msg, "https://pbs.twimg.com/media/CM5gg9YVAAAVMcn.png");
 
     return;
