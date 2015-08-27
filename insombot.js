@@ -19,6 +19,7 @@ mybot.on("message", function (msg) {
   //keywords
   var hello = "hello";
   var giphy = "gif:";
+  var hatter = "hater";
 
   //Hello
   if (message === hello) {
@@ -45,6 +46,14 @@ mybot.on("message", function (msg) {
 
     return;
   }
+
+  //Hatter
+  if (message === hater) {
+    mybot.reply(msg, "https://pbs.twimg.com/media/CM5gg9YVAAAVMcn.png");
+
+    return;
+  }
+
 });
 
 mybot.login(env["discord_email"], env["discord_pass"]);
