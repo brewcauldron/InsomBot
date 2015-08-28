@@ -2,7 +2,8 @@ var cc = require('config-multipaas'),
   env = require('./env.json'),
   Discord = require("discord.js"),
   Imgur = require("imgur-search"),
-  Giphy = require('giphy-wrapper')(env["giphy_key"]);
+  Giphy = require('giphy-wrapper')(env["giphy_key"]),
+  urban = require('urban');
 
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
@@ -27,6 +28,7 @@ mybot.on("message", function (msg) {
   var giphy = "/giphy ";
   var imgurKey = "/img ";
   var hatter = "hater";
+  var def = "/define ";
 
   // Reply to direct mentions
   if (msg.isMentioned(mybot.user)) {
@@ -85,6 +87,22 @@ mybot.on("message", function (msg) {
       mybot.sendMessage(msg, "Here's a description of an image: " + image.title + " " + image.description + " " + image.link);
     });
     return;
+  }
+
+  var defIndex = message.indexOf(def);
+  if (defIndex > -1) {
+    var term = message.substring(defIndex + def.length).trim().replace(/\s/g, "+");
+    urban(term).first(function(json) {
+      if (json !== undefined) {
+        // console.log("got json from UD: " + JSON.stringify(json,null,2));
+        var definition = "" + json.word + ": " + json.definition + "\nupvotes: " + json.thumbs_up + "   downvotes: " + json.thumbs_down + "\n\nExample: " + json.example;
+        mybot.reply(msg, definition);
+      }
+      else {
+        var apology = "sorry, I couldn't find a definition for: " + term;
+        mybot.reply(msg, apology);
+      }
+    });
   }
 
   //Hatter
