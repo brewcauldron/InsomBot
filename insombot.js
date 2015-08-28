@@ -72,12 +72,17 @@ mybot.on("message", function (msg) {
 
   var imgurIndex = message.indexOf(imgurKey);
   if (imgurIndex > -1) {
-    var term = message.substring(giphyIndex + giphy.length).trim().replace(/\s/g, "+");
+    var term = message.substring(imgurIndex + imgurKey.length).trim().replace(/\s/g, "+");
+    // console.log("searching imgur for term: " + term);
     isearch.search(term).then(function(results) {
-      if (results === undefined || results.length === 0) { return; }
+      // console.log("found results: " + JSON.stringify(results,null,2));
+      if (results === undefined || results.length === 0) {
+        mybot.reply(msg, "sorry, I couldn't find any imgurs for the term: " + term);
+        return;
+      }
 
       var image = results[Math.floor(Math.random() * results.length)];
-      mybot.sendMessage(msg, "Here's a description of an image: " + image.title + " " + image.description);
+      mybot.sendMessage(msg, "Here's a description of an image: " + image.title + " " + image.description + " " + image.link);
     });
     return;
   }
