@@ -29,6 +29,7 @@ mybot.on("message", function (msg) {
   var imgurKey = "/img ";
   var hatter = "hater";
   var def = "/define ";
+  var commands = "/commands ";
 
   // Reply to direct mentions
   if (msg.isMentioned(mybot.user)) {
@@ -108,6 +109,12 @@ mybot.on("message", function (msg) {
   //Hatter
   if (message === hatter) {
     mybot.sendMessage(msg, "https://pbs.twimg.com/media/CM5gg9YVAAAVMcn.png");
+    return;
+  }
+
+  //Commands
+  if (message === commands) {
+    mybot.sendMessage(msg, "Available commands: /giphy | /img | /define");
     return;
   }
 
