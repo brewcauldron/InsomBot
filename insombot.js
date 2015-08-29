@@ -29,7 +29,7 @@ mybot.on("message", function (msg) {
   var imgurKey = "/img ";
   var hatter = "hater";
   var def = "/define ";
-  var commands = "/commands ";
+  var commands = "/commands";
 
   // Reply to direct mentions
   if (msg.isMentioned(mybot.user)) {
